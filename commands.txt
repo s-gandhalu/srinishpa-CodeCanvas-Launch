@@ -1,0 +1,8 @@
+cd C:\Users\<YourUser>\Desktop\CodeCanvas_App
+
+.\.venv\Scripts\activate
+
+streamlit run app.py
+streamlit run Home.py
+
+https://drive.google.com/uc?export=download&id=1KtyMgJSbkBu6V_gRcyoaChuQdJU3B9TZ

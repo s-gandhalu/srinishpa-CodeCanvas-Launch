@@ -1,0 +1,2 @@
+# .gitignore content
+.streamlit/secrets.toml
