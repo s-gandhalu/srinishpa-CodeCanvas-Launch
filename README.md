@@ -1,6 +1,5 @@
 # 💡 CodeCanvas: Flowchart-to-Code Translator
 
-![CodeCanvas Logo Placeholder]
 
 CodeCanvas is an innovative, multi-lingual educational tool that bridges the gap between conceptual logic and executable syntax. It allows students and developers to convert handwritten algorithms (flowcharts or pseudocode) directly into clean, functional code using a sophisticated blend of computer vision and generative AI.
 
