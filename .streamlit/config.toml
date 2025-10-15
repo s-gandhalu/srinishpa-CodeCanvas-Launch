@@ -2,6 +2,3 @@
 # This line tells Streamlit to serve the 'assets' folder as static content.
 # This fixes the background image/video loading problem.
 enableStaticFileServer = true
-
-[general]
-pythonVersion = "3.11"
