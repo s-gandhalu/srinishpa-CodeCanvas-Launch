@@ -18,7 +18,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- Base64 Encoding Function (Guarantees Static Background Loads) ---
+# --- Base64 Encoding Function ---
 def get_base64_image(image_path):
     try:
         with open(image_path, "rb") as f:
@@ -26,32 +26,30 @@ def get_base64_image(image_path):
     except Exception as e:
         return ""
 
-# Get the Base64 String for background
 BG_BASE64 = get_base64_image("static/blackpurple.jpg")
 
-# --- ULTRA COOL APPLE-INSPIRED STYLE (Glassmorphism) ---
+# --- STUNNING PROFESSIONAL STYLE ---
 st.markdown(f"""
 <style>
-/* Global Reset */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 * {{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }}
 
-/* Background with your image */
 .stApp {{
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1d3a 50%, #0f0a1e 100%);
     background-image: url("data:image/jpg;base64,{BG_BASE64}");
     background-size: cover;
     background-attachment: fixed;
-    background-position: center;
-    color: #F5F5F7;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+    background-blend-mode: overlay;
+    color: #FFFFFF;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }}
 
-/* Dark overlay for readability */
 .stApp::before {{
     content: '';
     position: fixed;
@@ -64,30 +62,21 @@ st.markdown(f"""
     pointer-events: none;
 }}
 
-/* Hide Streamlit Branding */
-#MainMenu, footer, header {{
-    visibility: hidden;
-    height: 0;
-}}
+#MainMenu, footer, header {{visibility: hidden; height: 0;}}
+[data-testid="stToolbar"] {{display: none;}}
 
-[data-testid="stToolbar"] {{
-    display: none;
-}}
-
-/* Main Container */
 .main .block-container {{
-    padding: 40px 60px;
+    padding: 24px 48px !important;
     max-width: 1600px;
     position: relative;
     z-index: 1;
 }}
 
-/* HERO SECTION - Enhanced with gradient text */
-.hero-section {{
+/* HERO */
+.hero {{
     text-align: center;
-    padding: 80px 0 100px 0;
+    padding: 18px 0 16px;
     position: relative;
-    z-index: 1;
 }}
 
 .hero-title {{
@@ -98,7 +87,7 @@ st.markdown(f"""
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -3px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     line-height: 1;
     text-shadow: none;
     animation: titleGlow 3s ease-in-out infinite;
@@ -109,67 +98,124 @@ st.markdown(f"""
     50% {{ filter: drop-shadow(0 4px 40px rgba(167, 139, 250, 0.6)); }}
 }}
 
-.hero-subtitle {{
-    font-size: 1.8rem;
+.hero-sub {{
+    font-size: 1.15rem;
     color: rgba(255, 255, 255, 0.85);
     font-weight: 400;
     letter-spacing: 0.5px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }}
 
-/* Ultra Glass Cards - Enhanced */
-.glass-card {{
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(80px) saturate(200%);
-    -webkit-backdrop-filter: blur(80px) saturate(200%);
+/* PREMIUM GLASS CARD */
+.glass {{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 32px;
-    padding: 48px;
-    margin-bottom: 30px;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 24px;
+    padding: 28px 32px;
+    margin: 16px 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(139, 92, 246, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    z-index: 1;
-    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
 }}
 
-.glass-card:hover {{
-    border-color: rgba(167, 139, 250, 0.3);
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-10px) scale(1.005);
-    box-shadow: 0 30px 100px rgba(167, 139, 250, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+.glass::before {{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+    transition: left 0.5s;
 }}
 
-/* Section Headers Inside Cards */
-.section-label {{
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: rgba(167, 139, 250, 0.9);
+.glass:hover::before {{
+    left: 100%;
+}}
+
+.glass:hover {{
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 12px 48px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}}
+
+.label {{
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid rgba(167, 139, 250, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(167, 139, 250, 0.8);
+    margin-bottom: 12px;
+    display: block;
 }}
 
-/* Prominent Input Labels */
-.input-header {{
-    font-size: 1.8rem; 
-    font-weight: 700; 
-    background: linear-gradient(135deg, #FFFFFF 0%, #E9D5FF 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 0.5px;
-    margin-bottom: 20px;
-    margin-top: 0;
+/* SELECTBOX - Premium Enhanced Style */
+.stSelectbox > div {{
+    margin-top: 12px;
 }}
 
-/* Remove default Streamlit labels */
-label {{
-    display: none !important;
+.stSelectbox div[data-baseweb="select"] {{
+    background: rgba(167, 139, 250, 0.1);
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(167, 139, 250, 0.25);
+    border-radius: 24px;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.4s ease;
+    padding: 12px 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }}
 
-/* Radio Buttons - Enhanced Pills */
+.stSelectbox div[data-baseweb="select"]:hover {{
+    border-color: rgba(167, 139, 250, 0.5);
+    background: rgba(167, 139, 250, 0.15);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.3);
+    transform: translateY(-2px);
+}}
+
+.stSelectbox div[data-baseweb="select"] > div {{
+    color: #FFFFFF;
+}}
+
+/* Dropdown menu styling */
+.stSelectbox [role="listbox"] {{
+    background: rgba(30, 30, 50, 0.95) !important;
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(167, 139, 250, 0.3) !important;
+    border-radius: 20px !important;
+    padding: 8px !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}}
+
+.stSelectbox [role="option"] {{
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    margin: 4px 0 !important;
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+}}
+
+.stSelectbox [role="option"]:hover {{
+    background: rgba(167, 139, 250, 0.2) !important;
+    color: #FFFFFF !important;
+    transform: translateX(4px);
+}}
+
+.stSelectbox [aria-selected="true"] {{
+    background: rgba(167, 139, 250, 0.25) !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+}}
+
+/* RADIO BUTTONS - Enhanced Pills */
 div[data-testid="stRadio"] {{
     display: flex;
     gap: 16px;
@@ -214,35 +260,7 @@ div[data-testid="stRadio"] input[type="radio"] {{
     display: none;
 }}
 
-/* Selectbox - Premium Style */
-.stSelectbox > div {{
-    margin-top: 12px;
-}}
-
-.stSelectbox div[data-baseweb="select"] {{
-    background: rgba(167, 139, 250, 0.1);
-    backdrop-filter: blur(40px);
-    border: 2px solid rgba(167, 139, 250, 0.25);
-    border-radius: 24px;
-    color: #FFFFFF;
-    font-size: 1.2rem;
-    font-weight: 500;
-    transition: all 0.4s ease;
-    padding: 12px 20px;
-}}
-
-.stSelectbox div[data-baseweb="select"]:hover {{
-    border-color: rgba(167, 139, 250, 0.5);
-    background: rgba(167, 139, 250, 0.15);
-    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.3);
-    transform: translateY(-2px);
-}}
-
-.stSelectbox div[data-baseweb="select"] > div {{
-    color: #FFFFFF;
-}}
-
-/* File Uploader - Epic Enhanced Style */
+/* FILE UPLOADER - Epic Enhanced Style */
 [data-testid="stFileUploader"] {{
     background: rgba(167, 139, 250, 0.06);
     backdrop-filter: blur(40px);
@@ -294,170 +312,205 @@ div[data-testid="stRadio"] input[type="radio"] {{
     box-shadow: 0 8px 24px rgba(167, 139, 250, 0.4);
 }}
 
-/* Download Button - Premium */
-.stDownloadButton button {{
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-    backdrop-filter: blur(40px);
-    color: #FFFFFF;
+/* CODE CONTAINER */
+.code-box {{
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 20px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}}
+
+.code-header {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+}}
+
+.code-title {{
+    font-size: 0.85rem;
     font-weight: 700;
-    font-size: 1rem;
-    border: 2px solid rgba(167, 139, 250, 0.4);
-    border-radius: 999px;
-    padding: 20px 44px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 1px;
-    width: 100%;
+    color: rgba(167, 139, 250, 0.9);
     text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
+    letter-spacing: 1.5px;
+}}
+
+.stCodeBlock {{
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+}}
+
+/* BUTTONS */
+.stButton button {{
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.15));
+    border: 1.5px solid rgba(139, 92, 246, 0.3);
+    border-radius: 12px;
+    color: #FFFFFF;
+    padding: 11px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+}}
+
+.stButton button:hover {{
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(99, 102, 241, 0.25));
+    border-color: rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}}
+
+.stDownloadButton button {{
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15));
+    border: 1.5px solid rgba(16, 185, 129, 0.4);
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 11px 24px;
+    transition: all 0.3s ease;
 }}
 
 .stDownloadButton button:hover {{
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-    border-color: rgba(167, 139, 250, 0.6);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 20px 60px rgba(167, 139, 250, 0.5);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.25));
+    border-color: rgba(16, 185, 129, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }}
 
-/* Spinner */
-.stSpinner > div {{
-    border-color: rgba(167, 139, 250, 0.3) transparent transparent transparent !important;
-}}
-
-/* Code Block - Dark & Elegant */
-.stCodeBlock {{
-    background: rgba(0, 0, 0, 0.8) !important;
-    border: 1px solid rgba(167, 139, 250, 0.2);
+/* CHAT SECTION */
+.chat-box {{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius: 24px;
-    backdrop-filter: blur(30px);
-    margin-top: 20px;
-    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(167, 139, 250, 0.1);
+    padding: 28px 32px;
+    margin-top: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }}
 
-/* Images - Enhanced */
-.stImage {{
-    border-radius: 24px;
-    overflow: hidden;
-    border: 2px solid rgba(167, 139, 250, 0.2);
-    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.6);
-    transition: all 0.5s ease;
+.chat-title {{
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }}
 
-.stImage:hover {{
-    transform: scale(1.02);
-    box-shadow: 0 30px 90px rgba(167, 139, 250, 0.4);
-    border-color: rgba(167, 139, 250, 0.4);
+.chat-desc {{
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 20px;
 }}
 
-/* Success/Info Messages - Enhanced */
+.stChatMessage {{
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin-bottom: 12px !important;
+}}
+
+.stChatMessage[data-testid="user-message"] {{
+    background: rgba(139, 92, 246, 0.08) !important;
+    border: 1px solid rgba(139, 92, 246, 0.2) !important;
+}}
+
+.stChatInput textarea {{
+    background: rgba(139, 92, 246, 0.08) !important;
+    border: 1.5px solid rgba(139, 92, 246, 0.25) !important;
+    border-radius: 14px !important;
+    color: #FFFFFF !important;
+    font-size: 0.95rem !important;
+    padding: 14px 18px !important;
+    transition: all 0.3s ease;
+}}
+
+.stChatInput textarea:focus {{
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25) !important;
+}}
+
+/* ALERTS */
 .stSuccess {{
-    background: rgba(52, 199, 89, 0.15);
-    border-left: 5px solid #34C759;
-    backdrop-filter: blur(40px);
-    border-radius: 20px;
+    background: rgba(16, 185, 129, 0.12);
+    border-left: 4px solid #10b981;
+    border-radius: 12px;
     color: #FFFFFF;
-    border: 1px solid rgba(52, 199, 89, 0.4);
-    padding: 16px 20px;
-    font-weight: 500;
-}}
-
-.stInfo {{
-    background: rgba(96, 165, 250, 0.15);
-    border-left: 5px solid #60A5FA;
-    backdrop-filter: blur(40px);
-    border-radius: 20px;
-    color: #FFFFFF;
-    border: 1px solid rgba(96, 165, 250, 0.4);
-    padding: 16px 20px;
-    font-weight: 500;
+    padding: 14px 18px;
+    backdrop-filter: blur(10px);
 }}
 
 .stError {{
-    background: rgba(255, 59, 48, 0.15);
-    border-left: 5px solid #FF3B30;
-    backdrop-filter: blur(40px);
-    border-radius: 20px;
+    background: rgba(239, 68, 68, 0.12);
+    border-left: 4px solid #ef4444;
+    border-radius: 12px;
     color: #FFFFFF;
-    border: 1px solid rgba(255, 59, 48, 0.4);
-    padding: 16px 20px;
-    font-weight: 500;
+    padding: 14px 18px;
+    backdrop-filter: blur(10px);
 }}
 
-/* Columns */
-[data-testid="column"] {{
-    padding: 0 15px;
-}}
-
-/* Animations */
-@keyframes fadeInUp {{
-    from {{
-        opacity: 0;
-        transform: translateY(40px);
-    }}
-    to {{
-        opacity: 1;
-        transform: translateY(0);
-    }}
-}}
-
-@keyframes glow {{
-    0%, 100% {{
-        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
-    }}
-    50% {{
-        box-shadow: 0 20px 80px rgba(255, 255, 255, 0.1);
-    }}
-}}
-
-.glass-card {{
-    animation: fadeInUp 0.8s ease-out;
-}}
-
-/* Headings */
-h2, h3 {{
+.stInfo {{
+    background: rgba(59, 130, 246, 0.12);
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
     color: #FFFFFF;
-    font-weight: 600;
-    letter-spacing: -1px;
+    padding: 14px 18px;
+    backdrop-filter: blur(10px);
 }}
 
-/* Responsive */
+.stWarning {{
+    background: rgba(245, 158, 11, 0.12);
+    border-left: 4px solid #f59e0b;
+    border-radius: 12px;
+    color: #FFFFFF;
+    padding: 14px 18px;
+    backdrop-filter: blur(10px);
+}}
+
+.stSpinner > div {{
+    border-color: rgba(139, 92, 246, 0.3) transparent transparent transparent !important;
+}}
+
+::-webkit-scrollbar {{width: 10px;}}
+::-webkit-scrollbar-track {{background: rgba(0, 0, 0, 0.3);}}
+::-webkit-scrollbar-thumb {{background: rgba(139, 92, 246, 0.4); border-radius: 5px;}}
+::-webkit-scrollbar-thumb:hover {{background: rgba(139, 92, 246, 0.6);}}
+
+label {{display: none !important;}}
+
 @media (max-width: 768px) {{
-    .hero-title {{
-        font-size: 3rem;
-    }}
-    .hero-subtitle {{
-        font-size: 1.2rem;
-    }}
-    .main .block-container {{
-        padding: 30px 20px;
-    }}
-    .glass-card {{
-        padding: 32px;
-    }}
-}}
-
-/* Scrollbar */
-::-webkit-scrollbar {{
-    width: 12px;
-}}
-
-::-webkit-scrollbar-track {{
-    background: rgba(0, 0, 0, 0.3);
-}}
-
-::-webkit-scrollbar-thumb {{
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-}}
-
-::-webkit-scrollbar-thumb:hover {{
-    background: rgba(255, 255, 255, 0.3);
+    .hero-title {{font-size: 2.8rem;}}
+    .main .block-container {{padding: 16px 24px !important;}}
 }}
 </style>
 """, unsafe_allow_html=True)
 
 
-# --- INITIALIZATION & CACHING ---
+# --- SESSION STATE ---
+if 'generated_code' not in st.session_state:
+    st.session_state.generated_code = None
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
+if 'flowchart_context' not in st.session_state:
+    st.session_state.flowchart_context = None
+if 'current_language' not in st.session_state:
+    st.session_state.current_language = "Python"
+if 'last_modification' not in st.session_state:
+    st.session_state.last_modification = None
+if 'original_image' not in st.session_state:
+    st.session_state.original_image = None
+
+
+# --- LOAD MODELS ---
 @st.cache_resource
 def load_models_and_client():
     try:
@@ -476,48 +529,34 @@ if not all([client, yolo_model, reader]): st.stop()
 
 
 # --- UTILITY FUNCTIONS ---
-def get_center_point(box): 
-    return ((box[0] + box[2]) / 2, (box[1] + box[3]) / 2)
-
-def distance(point1, point2): 
-    return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
-
-# ===== NEW: Validate if image contains a flowchart =====
 def validate_flowchart(yolo_results, _yolo_model):
-    """Check if the image contains flowchart elements"""
     class_names = _yolo_model.names
     flowchart_classes = ['process', 'decision', 'start_end', 'arrow', 'scan']
-    
     detected_shapes = []
     for r in yolo_results:
         for box in r.boxes:
             class_id = int(box.cls[0])
             shape_type = class_names[class_id]
-            confidence = float(box.conf[0])
-            
             if shape_type in flowchart_classes:
-                detected_shapes.append((shape_type, confidence))
+                detected_shapes.append(shape_type)
     
     if len(detected_shapes) == 0:
-        return False, 0.0, "❌ No flowchart elements detected! Please capture an image of a flowchart."
+        return False, "❌ No flowchart detected. Please upload a clear flowchart image."
     elif len(detected_shapes) < 2:
-        return False, detected_shapes[0][1], "⚠️ Only one flowchart element detected. Please ensure the entire flowchart is visible."
+        return False, "⚠️ Incomplete flowchart. Please ensure all elements are visible."
     else:
-        avg_confidence = sum(conf for _, conf in detected_shapes) / len(detected_shapes)
-        return True, avg_confidence, f"✅ Valid flowchart detected with {len(detected_shapes)} elements!"
+        return True, f"✅ Flowchart validated! Detected {len(detected_shapes)} elements."
 
 def analyze_flowchart(yolo_results, reader, img_np, _yolo_model):
     shapes_data = []
     arrows_data = []
     class_names = _yolo_model.names
-
     for r in yolo_results:
         for box in r.boxes:
             class_id = int(box.cls[0])
             shape_type = class_names[class_id]
             x1, y1, x2, y2 = box.xyxy[0].int().tolist()
             bbox = (x1, y1, x2, y2)
-
             if 'arrow' in shape_type:
                 arrows_data.append({'type': shape_type, 'bbox': bbox})
             else:
@@ -526,166 +565,192 @@ def analyze_flowchart(yolo_results, reader, img_np, _yolo_model):
                     text_result = reader.readtext(roi, detail=0, paragraph=True)
                     extracted_text = " ".join(text_result).strip()
                 except Exception:
-                    extracted_text = "OCR_ERROR"
-
+                    extracted_text = ""
                 shapes_data.append({
                     'id': len(shapes_data),
                     'type': shape_type,
                     'bbox': bbox,
                     'text': extracted_text
                 })
-
-    for arrow in arrows_data:
-        arrow_center = get_center_point(arrow['bbox'])
-        shapes_sorted_by_distance = sorted(shapes_data, key=lambda s: distance(get_center_point(s['bbox']), arrow_center))
-
-        if len(shapes_sorted_by_distance) >= 2:
-            shape1 = shapes_sorted_by_distance[0]
-            shape2 = shapes_sorted_by_distance[1]
-            
-            if get_center_point(shape1['bbox'])[1] < get_center_point(shape2['bbox'])[1]:
-                source_id = shape1['id']
-                target_id = shape2['id']
-            else:
-                source_id = shape2['id']
-                target_id = shape1['id']
-
-            arrow['source'] = source_id
-            arrow['target'] = target_id
-
-    return {
-        "shapes": shapes_data,
-        "arrows": arrows_data
-    }
+    return {"shapes": shapes_data, "arrows": arrows_data}
 
 def create_dynamic_prompt_flow(graph, target_language):
     shapes = {s['id']: s for s in graph['shapes']}
-    flow_instructions = ["START PROGRAM"]
-    
+    flow_instructions = []
     for shape_id in sorted(shapes.keys()):
         node = shapes[shape_id]
         current_text = node['text'].strip()
         current_type = node['type']
-        
-        if current_text.lower() == 'start': continue
-        if current_text.lower() == 'end' or current_text.lower() == 'stop':
-            flow_instructions.append("END PROGRAM")
-            break
-            
+        if current_text.lower() in ['start', 'end', 'stop']: continue
         if current_type == 'process' or current_type == 'scan':
             flow_instructions.append(f"ACTION: {current_text}")
         elif current_type == 'decision':
-            flow_instructions.append(f"DECISION: IF ({current_text}):")
-            flow_instructions.append(f"  // The LLM must determine TRUE/FALSE branching based on the image.")
-        elif current_type == 'start_end':
-            flow_instructions.append(f"DISPLAY output: '{current_text}'")
-            
-    prompt_text = f"""
-    You are an expert software engineer. Your task is to analyze the flowchart structure and logic commands below.
-    
-    **Goal:** Write a complete, standalone {target_language} program that strictly follows the procedural logic. 
-    The output must contain ONLY the executable code block, nothing else (no explanations, no extra text).
+            flow_instructions.append(f"DECISION: {current_text}")
+    prompt_text = f"""You are an expert {target_language} programmer. 
 
-    Flowchart Logic:
-    {chr(10).join(flow_instructions)}
+Convert this flowchart logic into clean, executable {target_language} code:
 
-    Output ONLY the {target_language} code:
-    """
+{chr(10).join(flow_instructions)}
+
+Requirements:
+- Write complete, runnable code
+- Include proper comments
+- Use best practices for {target_language}
+- Output ONLY the code, no explanations
+
+{target_language} Code:"""
     return prompt_text
 
-@st.cache_data(show_spinner=False)
-def run_codecanvas_pipeline(image_np, target_language, _client, _yolo_model, _reader):
-    time.sleep(2) 
-    
-    # 1. Run YOLO object detection
-    yolo_results = _yolo_model.predict(source=image_np, save=False, conf=0.5, verbose=False)
+def is_casual_query(prompt):
+    """Check if the prompt is a casual conversation query"""
+    casual_patterns = [
+        'what', 'why', 'how', 'explain', 'tell me', 'can you', 
+        'what did', 'what changes', 'what have you', 'describe',
+        'show me', 'which', 'where', 'when', 'who'
+    ]
+    prompt_lower = prompt.lower().strip()
+    return any(pattern in prompt_lower for pattern in casual_patterns)
 
-    # 2. ===== NEW: Validate flowchart =====
-    is_valid, confidence, validation_msg = validate_flowchart(yolo_results, _yolo_model)
+def handle_conversational_query(prompt, current_code, last_modification, target_language, _client):
+    """Handle conversational queries about the code"""
+    context = f"""You are a helpful coding assistant. The user has {target_language} code and is asking a question about it.
+
+Current Code:
+```{target_language.lower()}
+{current_code}
+```
+
+Last Modification Made: {last_modification if last_modification else "Initial code generation from flowchart"}
+
+User Question: {prompt}
+
+Provide a friendly, conversational response. Explain clearly what was changed, why it was changed, or answer their question about the code. Keep it natural and helpful, like a real conversation."""
+
+    response = _client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=[context]
+    )
     
+    return response.text.strip()
+
+def regenerate_code_with_customization(original_code, user_request, target_language, _client):
+    """Regenerate code based on user request"""
+    prompt = f"""You are an expert {target_language} programmer.
+
+Original Code:
+```{target_language.lower()}
+{original_code}
+```
+
+User Request: {user_request}
+
+Task: Modify the code according to the user's request. Output ONLY the modified {target_language} code, no explanations.
+
+Modified Code:"""
+
+    response = _client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=[prompt]
+    )
+    
+    return response.text.strip()
+
+def run_codecanvas_pipeline(image_np, target_language, _client, _yolo_model, _reader):
+    time.sleep(1)
+    yolo_results = _yolo_model.predict(source=image_np, save=False, conf=0.5, verbose=False)
+    is_valid, validation_msg = validate_flowchart(yolo_results, _yolo_model)
     if not is_valid:
         return None, None, validation_msg
-
-    # 3. Analyze the flowchart structure
     flowchart_graph = analyze_flowchart(yolo_results, _reader, image_np, _yolo_model)
-
-    # 4. Prepare the final prompt for Gemini
     final_prompt_text = create_dynamic_prompt_flow(flowchart_graph, target_language)
-
-    # 5. Prepare image for Gemini (convert OpenCV BGR/RGB to PIL)
     original_image_pil = PILImage.fromarray(cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB))
-    
-    # 6. Call Gemini API (using _client)
     response = _client.models.generate_content(
         model='gemini-2.5-flash',
         contents=[final_prompt_text, original_image_pil]
     )
-
-    # 7. Generate the annotated image for display
-    annotated_image_np = yolo_results[0].plot()
-    
     generated_code = response.text.strip()
-    
-    return generated_code, annotated_image_np, validation_msg
+    return generated_code, flowchart_graph, validation_msg
 
 
-# --- HERO SECTION ---
+# --- HERO ---
 st.markdown("""
-<div class="hero-section">
-    <div class="hero-title">Flowchart Translator</div>
-    <div class="hero-subtitle">Transform your flowcharts into production-ready code</div>
+<div class="hero">
+    <div class="hero-title">CodeCanvas</div>
+    <div class="hero-sub">Transform flowcharts into production-ready code with AI</div>
 </div>
 """, unsafe_allow_html=True)
 
 # --- INPUT SECTION ---
-col_lang, col_input = st.columns([1, 2], gap="large")
+col1, col2 = st.columns([1, 2])
 
-with col_lang:
-    with st.container():
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-        st.markdown('<div class="input-header">Target Language</div>', unsafe_allow_html=True)
-        target_language = st.selectbox(
-            "lang",
-            ("Python", "Java", "C++", "C"),
-            index=0,
-            label_visibility="collapsed"
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
+with col1:
+    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<span class="label">🎯 Target Language</span>', unsafe_allow_html=True)
+    target_language = st.selectbox(
+        "lang",
+        ("Python", "Java", "C++", "C", "JavaScript"),
+        index=0,
+        label_visibility="collapsed",
+        key="language_selector"
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
 
-with col_input:
-    with st.container():
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-        st.markdown('<div class="input-header">Input Source</div>', unsafe_allow_html=True)
-        
-        input_method = st.radio(
-            "input",
-            ("🖼️ Upload Image", "📸 Live Camera"),
-            horizontal=True,
-            label_visibility="collapsed"
-        )
-        
-        uploaded_file = None
-        camera_image = None
-        
-        # ===== NEW: Camera input added =====
-        if input_method == "🖼️ Upload Image":
-            uploaded_file = st.file_uploader(
-                "upload", 
-                type=['png', 'jpg', 'jpeg'],
-                label_visibility="collapsed"
-            )
-        elif input_method == "📸 Live Camera":
-            camera_image = st.camera_input(
-                "capture",
-                label_visibility="collapsed"
-            )
-            
-        st.markdown('</div>', unsafe_allow_html=True)
+with col2:
+    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<span class="label">📤 Input Method</span>', unsafe_allow_html=True)
+    input_method = st.radio(
+        "input",
+        ("🖼️ Upload Image", "📸 Live Camera"),
+        horizontal=True,
+        label_visibility="collapsed"
+    )
+    
+    uploaded_file = None
+    camera_image = None
+    
+    if input_method == "🖼️ Upload Image":
+        uploaded_file = st.file_uploader("upload", type=['png', 'jpg', 'jpeg'], label_visibility="collapsed")
+    else:
+        camera_image = st.camera_input("capture", label_visibility="collapsed")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# --- RESULTS SECTION (MODIFIED TO HANDLE BOTH SOURCES) ---
+
+# --- DETECT LANGUAGE CHANGE ---
+if target_language != st.session_state.current_language:
+    if st.session_state.flowchart_context and st.session_state.original_image is not None:
+        with st.spinner(f'🔄 Converting to {target_language}...'):
+            try:
+                # Regenerate code in new language
+                final_prompt_text = create_dynamic_prompt_flow(
+                    st.session_state.flowchart_context, 
+                    target_language
+                )
+                original_image_pil = PILImage.fromarray(
+                    cv2.cvtColor(st.session_state.original_image, cv2.COLOR_BGR2RGB)
+                )
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=[final_prompt_text, original_image_pil]
+                )
+                st.session_state.generated_code = response.text.strip()
+                st.session_state.current_language = target_language
+                st.session_state.last_modification = f"Converted to {target_language}"
+                
+                # Add language change notification to chat
+                st.session_state.chat_history.append({
+                    "role": "assistant", 
+                    "content": f"✅ Code converted to {target_language}!"
+                })
+                
+                # Force rerun to update syntax highlighting
+                st.rerun()
+            except Exception as e:
+                st.error(f"❌ Error converting language: {e}")
+                st.session_state.current_language = target_language
+
+# --- PROCESSING ---
 image_np = None
 
-# ===== NEW: Process both uploaded file and camera image =====
 if uploaded_file is not None:
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     image_np = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
@@ -693,53 +758,134 @@ elif camera_image is not None:
     file_bytes = np.asarray(bytearray(camera_image.read()), dtype=np.uint8)
     image_np = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
-# ===== MODIFIED: Updated to handle validation =====
-if image_np is not None:
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    with st.spinner('🔍 Analyzing flowchart with AI...'):
+if image_np is not None and st.session_state.generated_code is None:
+    with st.spinner('✨ Analyzing flowchart and generating code...'):
         try:
-            result = run_codecanvas_pipeline(
-                image_np, target_language, client, yolo_model, reader
-            )
+            result = run_codecanvas_pipeline(image_np, target_language, client, yolo_model, reader)
+            generated_code, flowchart_context, validation_msg = result
             
-            generated_code, annotated_image_np, validation_msg = result
-            
-            # Check if validation failed
             if generated_code is None:
                 st.error(validation_msg)
-                st.info("💡 **Tips for better results:**\n\n"
-                       "• Ensure the entire flowchart is visible\n\n"
-                       "• Use good lighting without shadows\n\n"
-                       "• Make sure flowchart shapes are clear\n\n"
-                       "• Avoid glare or reflections")
-                st.markdown('</div>', unsafe_allow_html=True)
+                st.info("💡 **Tips:** Ensure the flowchart is clear, well-lit, and all elements are visible.")
             else:
+                st.session_state.generated_code = generated_code
+                st.session_state.flowchart_context = flowchart_context
+                st.session_state.original_image = image_np
+                st.session_state.current_language = target_language
+                st.session_state.chat_history = []
+                st.session_state.last_modification = None
                 st.success(validation_msg)
-                st.markdown('</div>', unsafe_allow_html=True)
-                
-                viz_col, code_col = st.columns([1, 1.5], gap="large")
-
-                with viz_col:
-                    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-                    st.markdown('<div class="section-label">Visual Analysis (CV Output)</div>', unsafe_allow_html=True)
-                    st.image(
-                        cv2.cvtColor(annotated_image_np, cv2.COLOR_BGR2RGB), 
-                        use_container_width=True
-                    )
-                    st.markdown('</div>', unsafe_allow_html=True)
-
-                with code_col:
-                    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-                    st.markdown(f'<div class="section-label">Generated {target_language} Code</div>', unsafe_allow_html=True)
-                    st.code(generated_code, language=target_language.lower(), line_numbers=True)
-                    st.download_button(
-                        label=f"⬇️ Download Code",
-                        data=generated_code.encode("utf-8"),
-                        file_name=f"codecanvas_output.{'py' if target_language == 'Python' else target_language.lower()}",
-                        mime="text/plain"
-                    )
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
+                st.rerun()
         except Exception as e:
-            st.error(f"❌ Error during pipeline: {e}")
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.error(f"❌ Error: {e}")
+
+# --- CODE DISPLAY ---
+if st.session_state.generated_code:
+    st.markdown('<div class="code-box">', unsafe_allow_html=True)
+    
+    col_label, col_download = st.columns([3, 1])
+    with col_label:
+        st.markdown(f'<div class="code-title">💻 Generated {st.session_state.current_language} Code</div>', unsafe_allow_html=True)
+    with col_download:
+        file_extensions = {
+            "Python": "py",
+            "Java": "java",
+            "C++": "cpp",
+            "C": "c",
+            "JavaScript": "js"
+        }
+        st.download_button(
+            label="⬇️ Download",
+            data=st.session_state.generated_code.encode("utf-8"),
+            file_name=f"codecanvas_output.{file_extensions.get(st.session_state.current_language, 'txt')}",
+            mime="text/plain",
+            use_container_width=True
+        )
+    
+    # Proper syntax highlighting language mapping
+    syntax_languages = {
+        "Python": "python",
+        "Java": "java",
+        "C++": "cpp",
+        "C": "c",
+        "JavaScript": "javascript"
+    }
+    
+    # Get the correct syntax language identifier
+    syntax_lang = syntax_languages.get(st.session_state.current_language, "text")
+    
+    # Display code with proper syntax highlighting
+    st.code(
+        st.session_state.generated_code, 
+        language=syntax_lang,
+        line_numbers=True
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # --- CHAT INTERFACE ---
+    st.markdown('<div class="chat-box">', unsafe_allow_html=True)
+    st.markdown('<div class="chat-title">💬 AI Assistant</div>', unsafe_allow_html=True)
+    st.markdown('<div class="chat-desc">Chat with me to modify your code, ask questions, or understand changes</div>', unsafe_allow_html=True)
+    
+    # Display chat history
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    
+    # Chat input
+    if prompt := st.chat_input("💭 Ask me anything: 'add error handling', 'what did you change?', 'make it shorter'"):
+        # Add user message
+        st.session_state.chat_history.append({"role": "user", "content": prompt})
+        
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        
+        # Generate response
+        with st.chat_message("assistant"):
+            with st.spinner("🤖 Thinking..."):
+                try:
+                    # Check if it's a conversational query or code modification request
+                    if is_casual_query(prompt):
+                        # Handle as conversation
+                        response_text = handle_conversational_query(
+                            prompt,
+                            st.session_state.generated_code,
+                            st.session_state.last_modification,
+                            st.session_state.current_language,
+                            client
+                        )
+                        st.markdown(response_text)
+                        st.session_state.chat_history.append({
+                            "role": "assistant", 
+                            "content": response_text
+                        })
+                    else:
+                        # Handle as code modification request
+                        new_code = regenerate_code_with_customization(
+                            st.session_state.generated_code,
+                            prompt,
+                            st.session_state.current_language,
+                            client
+                        )
+                        
+                        # Update code and notify user
+                        st.session_state.generated_code = new_code
+                        st.session_state.last_modification = prompt
+                        response_text = f"✅ Done! I've updated the code above. {prompt.capitalize()}."
+                        st.markdown(response_text)
+                        st.session_state.chat_history.append({
+                            "role": "assistant", 
+                            "content": response_text
+                        })
+                        time.sleep(0.3)
+                        st.rerun()
+                        
+                except Exception as e:
+                    error_msg = f"❌ Sorry, I encountered an error: {str(e)}"
+                    st.markdown(error_msg)
+                    st.session_state.chat_history.append({
+                        "role": "assistant", 
+                        "content": error_msg
+                    })
+    
+    st.markdown('</div>', unsafe_allow_html=True)
